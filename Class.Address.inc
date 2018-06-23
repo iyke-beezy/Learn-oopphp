@@ -7,8 +7,28 @@
      public $streetName_2;
      public $subdivision_name = 'california';
      public $city_name;
-     public $postal_code;
+     protected $_postal_code;
      public $country_name;
+
+
+     function __get($name) {
+         if(!$this->_postal_code) {
+             $this->_postal_code = $this->_postal_code_guess;
+         }
+
+         //attempt to return a protected property name
+         $protected_name_property = '_'.$name;
+         if(property_exists($this, $protected_name_property)) {
+             return $this->$protected_name_property;
+         }
+         //unability to find the property should trigger an error
+         trigger_error('Undefined property via __get: '.$name);
+         return NULL;
+     }
+
+     protected function _postal_code_guess() {
+         return 'Lookup';
+     }
 
      function display() {
          $output = '';
