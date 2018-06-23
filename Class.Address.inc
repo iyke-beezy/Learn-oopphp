@@ -13,7 +13,7 @@
 
      function __get($name) {
          if(!$this->_postal_code) {
-             $this->_postal_code = $this->_postal_code_guess;
+             $this->_postal_code = $this->_postal_code_guess();
          }
 
          //attempt to return a protected property name
@@ -25,6 +25,23 @@
          trigger_error('Undefined property via __get: '.$name);
          return NULL;
      }
+     /**
+      * Magic set
+      *@param string name
+      *@ param mixed value
+      */
+
+        function __set($name, $value) {
+            //set the value of posyal code
+            if($name == 'postal_code') {
+                $this->$name = $value;
+                return;
+            }
+
+            //unable to access property should trigger an error
+            trigger_error('Unable to access property via __set: '.$name);
+            return NULL;
+        }
 
      protected function _postal_code_guess() {
          return 'Lookup';

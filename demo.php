@@ -18,4 +18,8 @@ echo '<tt><pre>'.var_export($address, TRUE).'</pre></tt>';
 echo '<h2>DIsplaying address...</h2>';
 echo $address->display();
 
+echo '<h2>Testing magic git and set</h2>';
+unset($address->postal_code);
+echo $address->display();
+
 ?>
