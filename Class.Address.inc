@@ -137,7 +137,14 @@
          }
      }
 
-     final  public static function load($address_id){
+    
+
+     final public static function getInstance($address_type_id, $data = array()) {
+         $class_name = 'Address'.self::valid_address_types[$address_type_id];
+         return new $class_name($data);
+     }
+     
+     final public static function load($address_id){
          $db = Database::getInstance();
          $mysqli = $db->connection();
 
@@ -147,11 +154,6 @@
          if ($row = $result->fetch_assoc()) {
             return self::getInstance($row['address_type_id'],$row);
          }
-     }
-
-     final public static function getInstance($address_type_id, $data = array()) {
-         $class_name = 'Address'.self::valid_address_types[$address_type_id];
-         return new $class_name($data);
      }
      final public function save() {}
     }

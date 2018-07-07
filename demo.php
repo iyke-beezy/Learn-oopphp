@@ -3,6 +3,8 @@ require 'Class.Address.inc';
 require 'Class.Database.inc';
 require 'Class.AddressResidence.inc';
 require 'Class.AddressBusiness.inc';
+require 'Class.AddressPark.inc';
+require 'Class.Model.inc';
 
 echo '<h2>Instantiating Address</h2>';
 $address = new AddressResidence;
