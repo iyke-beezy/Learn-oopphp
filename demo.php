@@ -1,17 +1,24 @@
 <?php
-require 'Class.Address.inc';
-require 'Class.Database.inc';
-require 'Class.AddressResidence.inc';
-require 'Class.AddressBusiness.inc';
-require 'Class.AddressPark.inc';
-require 'Class.Model.inc';
+/*funtion __autoload($class) {
+    include 'Address.'.$class.'.inc';
+}
+*/
+function my_autoloader($class) {
+    include 'Class.' . $class . '.inc';
+}
 
+spl_autoload_register('my_autoloader');
+
+// Or, using an anonymous function as of PHP 5.3.0
+spl_autoload_register(function ($class) {
+    include 'Class.' . $class . '.inc';
+});
 echo '<h2>Instantiating Address</h2>';
 $address = new AddressResidence;
 
 
 echo '<h2>Setting properties...</h2>';
-$address->streetName_1 = '555 Fake Street';
+$address->street_address_1 = '555 Fake Street';
 $address->city_name = 'Townsville';
 $address->subdivision_name = 'State';
 $address->country_name = 'United States of America';
@@ -21,7 +28,7 @@ echo '<tt><pre>'.var_export($address, TRUE).'</pre></tt>';
 
 echo '<h2>Testing Address __ construct with an array</h2>';
 $address_2 = new AddressBusiness(array(
-    'streetName_1' =>'123 Phony Ave',
+    'street_address_1' =>'123 Phony Ave',
     'city_name' => 'Villageland',
     'subdivision_name' => 'Region',
     'country_name' => 'Canada',
@@ -30,7 +37,12 @@ echo $address_2;
 echo '<tt><pre>'.var_export($address_2, TRUE).'</pre></tt>';
 
 echo '<h2>loading data from the databse</h2>';
-$address_db = Address::load(1);
-echo '<tt><pre>'.var_export($address_db, TRUE).'</pre></tt>';
+try{
+    $address_db = Address::load(0);
+    echo '<tt><pre>'.var_export($address_db, TRUE).'</pre></tt>';
+}
+catch (ExceptionAddress $e) {
+    echo $e; 
+}
 
 ?>
