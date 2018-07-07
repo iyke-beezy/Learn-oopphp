@@ -6,4 +6,5 @@ interface Model {
     function save();
 }
 
+?>
 
