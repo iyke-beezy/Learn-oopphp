@@ -2,7 +2,7 @@
 /**
  * Physical address
  */
- class Address{
+ abstract class Address implements Model{
      const ADDRESS_TYPE_RESIDENCE = 1;
      const ADDRESS_TYPE_BUSINESS = 2;
      const ADDRESS_TYPE_PARK = 3;
@@ -27,6 +27,7 @@
      protected $_time_updated;
 
     function __construct($data = array()) {
+        $this->_init();
         $this->_time_created = time();
         //ensure that the adress can be populated
         if(!is_array($data)) {
@@ -68,11 +69,7 @@
       */
 
         function __set($name, $value) {
-            if($name == 'address_type_id') {
-                $this->_setAddressTypeId($value);
-                return;
-            }
-            //set the value of posyal code
+            //set the value of postal code
             if($name == 'postal_code') {
                 $this->$name = $value;
                 return;
@@ -91,6 +88,7 @@
             return $this->display();
         }
 
+        abstract protected function _init();
      protected function _postal_code_guess() {
          $db = Database::getInstance();
          $mysqli = $db->getConnection();
@@ -126,9 +124,7 @@
 
          return $output;
      }
-     /**
-      * 
-      */
+
      static public function isValidAddressTypeId($address_type_id) {
         return array_key_exists($address_type_id, self::$valid_address_types);
      }
@@ -138,5 +134,9 @@
              $this->_address_type_id = $address_type_id;
          }
      }
+
+     final  public static function load($address_id){}
+
+     final public function save() {}
     }
     ?>
